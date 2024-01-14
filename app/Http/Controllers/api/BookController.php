@@ -68,11 +68,10 @@ class BookController extends Controller
             $data['isbn']           = $request['isbn'];
             $data['total_copies']   = $request['total_copies'];
 
-            $response = ["status"=>404,"message"=>"Data not found"];
-            Book::find($id)->update($data);
-            $data = Book::find($id);
-            if ($data)
+            $res = Book::find($id);
+            if ($res)
             {
+                Book::find($id)->update($data);
                 $response["status"] = 200;
                 $response["message"]= "Updated Succesfully";
                 return response()->json($response, 200);
