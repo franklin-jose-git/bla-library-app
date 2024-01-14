@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\api\BookController;
+use App\Http\Controllers\api\BorrowingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,4 +26,12 @@ Route::prefix('/books')->group(function () {
     Route::get('/{id}',[ BookController::class, 'getById']);
     Route::put('/{id}',[ BookController::class, 'update']);
     Route::delete('/{id}',[ BookController::class, 'delete']);
+});
+
+Route::prefix('/borrowings')->group(function () {
+    Route::get('/',[ BorrowingController::class, 'get']);
+    Route::post('/',[ BorrowingController::class, 'create']);
+    Route::get('/{id}',[ BorrowingController::class, 'getById']);
+    Route::put('/{id}',[ BorrowingController::class, 'update']);
+    Route::delete('/{id}',[ BorrowingController::class, 'delete']);
 });
