@@ -40,6 +40,7 @@ Route::group([
         Route::get('/{id}',[ BookController::class, 'getById']);
         Route::put('/{id}',[ BookController::class, 'update']);
         Route::delete('/{id}',[ BookController::class, 'delete']);
+        Route::post('/search',[ BookController::class, 'search']);
     });
 
     Route::prefix('/borrowings')->group(function () {

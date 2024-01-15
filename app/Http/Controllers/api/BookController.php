@@ -31,7 +31,7 @@ class BookController extends Controller
             $data['total_copies']   = $request['total_copies'];
 
             $res = Book::create($data);
-            return response()->json( $res, 200);
+            return response()->json( $res, 201);
         }
         catch (\Throwable $th)
         {
@@ -76,7 +76,7 @@ class BookController extends Controller
                 Book::find($id)->update($data);
                 $response["status"] = 200;
                 $response["message"]= "Updated Succesfully";
-                return response()->json($response, 200);
+                return response()->json($response, 204);
             }
             else {
                 $response["status"] = 404;
@@ -110,6 +110,23 @@ class BookController extends Controller
         }
         catch (\Throwable $th)
         {
+            return response()->json([ 'error' => $th->getMessage()], 500);
+        }
+    }
+
+    public function search(Request $request)
+    {
+        try {
+            $term = $request->input('term');
+
+            $data = Book::where('title','like',"%$term%")
+                ->orWhere('author','like',"%$term%")
+                ->orWhere('genre','like',"%$term%")
+                ->get();
+
+            return response()->json($data, 200);
+        }
+        catch (\Throwable $th) {
             return response()->json([ 'error' => $th->getMessage()], 500);
         }
     }
