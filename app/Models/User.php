@@ -68,8 +68,8 @@ class User extends Authenticatable implements JWTSubject
         ];
     }
 
-    public function scopeIsLibrarian($query)
+    public function isLibrarian()
     {
-        return $query->where('usertype','Librarian');
+        return $this->usertype == 'Librarian';
     }
 }

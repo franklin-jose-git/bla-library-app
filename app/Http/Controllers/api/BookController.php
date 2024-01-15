@@ -22,6 +22,7 @@ class BookController extends Controller
 
     public function create(Request $request)
     {
+        $this->authorize('add', Book::class);
         try {
             $data['title']          = $request['title'];
             $data['author']         = $request['author'];
@@ -61,6 +62,7 @@ class BookController extends Controller
 
     public function update(Request $request, $id)
     {
+        $this->authorize('edit', Book::class);
         try {
             $data['title']          = $request['title'];
             $data['author']         = $request['author'];
@@ -90,6 +92,7 @@ class BookController extends Controller
 
     public function delete($id)
     {
+        $this->authorize('delete', Book::class);
         try {
             $data = Book::find($id);
             if ($data)
