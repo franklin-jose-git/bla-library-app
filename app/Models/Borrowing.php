@@ -23,4 +23,5 @@ class Borrowing extends Model
         'delivered_date',
         'delivered',
     ];
+
 }

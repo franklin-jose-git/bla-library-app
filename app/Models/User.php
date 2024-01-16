@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use Carbon\Carbon;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -71,5 +72,28 @@ class User extends Authenticatable implements JWTSubject
     public function isLibrarian()
     {
         return $this->usertype == 'Librarian';
+    }
+
+    public function borrowings()
+    {
+        return $this->hasMany(Borrowing::class);
+    }
+
+    public function scopeHasOverdueBooks($query)
+    {
+        return $query->whereHas('borrowings', function ($subQuery) {
+            $subQuery->where('delivered', false);
+        });
+    }
+
+    public function scopeListOverdueBooks($query)
+    {
+        //dd($this->id);
+        return $query->whereHas('borrowings', function ($subQuery)
+        {
+            $subQuery->where('due_date', '<', Carbon::now())
+                     ->where('delivered', false)
+                     ->where('user_id',$this->id);
+        });
     }
 }

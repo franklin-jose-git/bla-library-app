@@ -6,6 +6,7 @@ use App\Http\Controllers\api\BookController;
 use App\Http\Controllers\api\BorrowingController;
 use App\Http\Controllers\api\UserController;
 use App\Http\Controllers\api\AuthController;
+use App\Http\Controllers\api\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,7 +33,7 @@ Route::group([
 });
 
 Route::group([
-    'middleware' => 'api',
+    'middleware' => 'auth:api',
 ], function (){
     Route::prefix('/books')->group(function () {
         Route::get('/',[ BookController::class, 'get']);
@@ -57,5 +58,9 @@ Route::group([
         Route::get('/{id}',[ UserController::class, 'getById']);
         Route::put('/{id}',[ UserController::class, 'update']);
         Route::delete('/{id}',[ UserController::class, 'delete']);
+    });
+
+    Route::prefix('/dashboard')->group(function () {
+        Route::get('/',[ DashboardController::class, 'dashboard']);
     });
 });
