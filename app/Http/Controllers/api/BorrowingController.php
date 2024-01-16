@@ -137,6 +137,7 @@ class BorrowingController extends Controller
 
     public function mark($id)
     {
+        $this->authorize('mark', Borrowing::class);
         try {
             $data = Borrowing::find($id);
             $data->delivered  = true;
