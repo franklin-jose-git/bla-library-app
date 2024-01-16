@@ -21,46 +21,103 @@ Laravel is a web application framework with expressive, elegant syntax. We belie
 
 Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
-## Learning Laravel
+# BLA Library App
+A sample project for demonstrating API CRUD operations using Laravel / PHP.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Technologies Used
+![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)![Laravel 10 Logo](https://laravel.com/assets/img/components/logo-laravel.svg)![PHP 8.2 Logo](https://www.php.net//images/logos/php-med-trans-dark.gif)![MySQL 8 Logo](https://www.oracle.com/search/assets/ngui/u15-mysql-logo.png)![Docker](https://1000logos.net/wp-content/uploads/2021/11/Docker-Logo-500x281.png)
+- Laravel 10.
+- PHP 8.2.12.
+- MySQL 8.
+- Docker.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+# Getting Started
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Prerequisites
+- PHP 8.2.12.
+- Composer.
+- Docker.
 
-## Laravel Sponsors
+## Installation
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+1. Clone the repository:
+```bash
+git clone https://github.com/franklin-jose-git/bla-library-app.git
+```
 
-### Premium Partners
+2. Change into the project directory:
+```bash
+cd bla-library-app
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+3. Install composer packages:
+```bash
+composer install
+```
 
-## Contributing
+4. Build docker image
+```bash
+docker-compose build app
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+5. Create docker container
+```bash
+docker-compose up -d
+```
 
-## Code of Conduct
+6. Check if the docker containers were created (laravel-app-container, laravel-db-container and laravel-nginx-container)
+```bash
+docker ps
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+7. When the containers are successfully started, run the following instruction to initiate the database and laravel settings
+```bash
+docker exec -it laravel-app-container /bin/sh /tmp/init.sh
+```
 
-## Security Vulnerabilities
+## Usage
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+1. Use the postman collection already included in the project:
+```bash
+LibraryApp.postman_collection.json
+```
+
+2. The location of the application is inside the following url:
+```bash
+http://localhost:8000/
+```
+
+## Endpoints
+
+| HTTP Verb | Route                     | Description                              |
+|-----------|---------------------------|------------------------------------------|
+| POST      | api/auth/login            | User login                               |
+| POST      | api/auth/logout           | User logout                              |
+| GET|HEAD  | api/auth/me               | Get user profile                         |
+| GET|HEAD  | api/books                 | Get the list of books                    |
+| POST      | api/books                 | Create a new book                        |
+| POST      | api/books/search          | Search for books                         |
+| GET|HEAD  | api/books/{id}            | Get a book by ID                         |
+| PUT       | api/books/{id}            | Update a book by ID                      |
+| DELETE    | api/books/{id}            | Delete a book by ID                      |
+| GET|HEAD  | api/borrowings            | Get the list of borrowings               |
+| POST      | api/borrowings            | Create a new borrowing                   |
+| PUT       | api/borrowings/mark/{id}  | Mark a borrowing as delivered            |
+| GET|HEAD  | api/borrowings/{id}       | Get a borrowing by ID                    |
+| PUT       | api/borrowings/{id}       | Update a borrowing by ID                 |
+| DELETE    | api/borrowings/{id}       | Delete a borrowing by ID                 |
+| GET|HEAD  | api/dashboard             | Get dashboard data                       |
+| GET|HEAD  | api/user                  | Get current user information             |
+| GET|HEAD  | api/users                 | Get the list of users                    |
+| POST      | api/users                 | Create a new user                        |
+| GET|HEAD  | api/users/{id}            | Get a user by ID                         |
+| PUT       | api/users/{id}            | Update a user by ID                      |
+| DELETE    | api/users/{id}            | Delete a user by ID                      |
+
+Note: all the routes explained before requires authorization as Bearer Token (use `api/auth/login` to get a jwt token)
 
 ## License
+
+This project is licensed under the GNU General Public License v3.0. You are free to use, modify, and distribute this software under the terms of the GPL v3.0 license. However, any changes made to the codebase must be shared under the same license
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
