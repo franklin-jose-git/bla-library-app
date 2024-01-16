@@ -46,7 +46,7 @@ class Book extends Model
         return $query->whereHas('borrowed', function ($subQuery)
         {
             $subQuery->where('delivered', false)
-                     ->where('due_date', Carbon::now());
+                ->whereDate('due_date', '=', Carbon::now()->startOfDay());
         });
     }
 }

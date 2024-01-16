@@ -82,7 +82,8 @@ class User extends Authenticatable implements JWTSubject
     public function scopeHasOverdueBooks($query)
     {
         return $query->whereHas('borrowings', function ($subQuery) {
-            $subQuery->where('delivered', false);
+            $subQuery->where('delivered', false)
+                ->whereDate('due_date', '<', Carbon::now()->startOfDay());
         });
     }
 
@@ -94,6 +95,13 @@ class User extends Authenticatable implements JWTSubject
             $subQuery->where('due_date', '<', Carbon::now())
                      ->where('delivered', false)
                      ->where('user_id',$this->id);
+        });
+    }
+
+    public function scopeBorrowedBooks($query) 
+    {
+        return $query->whereHas('borrowings', function($subQuery) {
+            $subQuery->where('delivered', true);
         });
     }
 }

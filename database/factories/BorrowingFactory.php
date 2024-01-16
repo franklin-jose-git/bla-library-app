@@ -29,9 +29,16 @@ class BorrowingFactory extends Factory
             ->pluck('id')
             ->first();
 
-        $faker_date =  fake()->dateTimeBetween(Carbon::now()->subDays(100),Carbon::now());
+        $useTodayForDueDate = fake()->randomfloat(0,0,1) <= 0.3;
 
-        $faker_due_date =  Carbon::parse($faker_date)->addDays(20);
+        if ($useTodayForDueDate) {
+            $faker_date = Carbon::now()->addDays(-21);
+        }
+        else {
+            $faker_date =  fake()->dateTimeBetween(Carbon::now()->subDays(100),Carbon::now());
+        }
+
+        $faker_due_date =  Carbon::parse($faker_date)->addDays(20)->startOfDay();
 
         $faker_delivered = fake()->randomfloat(0,0,1) <= 0.4;
 

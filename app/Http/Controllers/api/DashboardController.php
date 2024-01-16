@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Book;
 use App\Models\User;
+use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
@@ -23,9 +24,18 @@ class DashboardController extends Controller
                 ], 200);
             }
             else {
+                $all_borrowings = $currentUser->borrowings()->with('book')->get();
+                $borrowed_books = $all_borrowings->pluck('book');
+                $borrowed_due_books = $all_borrowings->filter(function($item) {
+                    return Carbon::parse($item['due_date'])->startOfDay() <= Carbon::now()->startOfDay() && $item['delivered'] == false;
+                })->pluck('book');
+                $borrowed_overdue_books = $all_borrowings->filter(function($item) {
+                    return Carbon::parse($item['due_date'])->startOfDay() > Carbon::now()->startOfDay() && $item['delivered'] == false;
+                })->pluck('book');
                 return response()->json([
-                  //  ''=> '',
-                    'overdue_books' => $currentUser->listOverdueBooks()->get(),
+                    'borrowed_books' => $borrowed_books,
+                    'borrowed_due_books' => $borrowed_due_books,
+                    'borrowed_overdue_books' => $borrowed_overdue_books
                 ], 200);
             }
         }
