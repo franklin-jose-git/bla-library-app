@@ -49,6 +49,7 @@ Route::group([
         Route::post('/',[ BorrowingController::class, 'create']);
         Route::get('/{id}',[ BorrowingController::class, 'getById']);
         Route::put('/{id}',[ BorrowingController::class, 'update']);
+        Route::put('/mark/{id}',[ BorrowingController::class, 'mark']);
         Route::delete('/{id}',[ BorrowingController::class, 'delete']);
     });
 
